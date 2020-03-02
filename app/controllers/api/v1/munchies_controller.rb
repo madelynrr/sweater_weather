@@ -50,11 +50,6 @@ class Api::V1::MunchiesController < ApplicationController
   render json: MunchiesSerializer.new(response_information)
 
 
-
-
-
-
-
   end
 
 end
