@@ -31,15 +31,21 @@ class ForecastFacade
     # response_body = JSON.parse(weather_response.body)
 
 
-    daily_forecast = DailyForecast.new(weather_response_body, location, country)
+    daily_forecast = DailyForecast.new(forecast_information, location, country)
   end
 
-  def weather_response_body
+  def forecast_information
+    # weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{lat},#{long}") do |req|
+    #   req.params['exclude'] = 'minutely'
+    # end
+
+    JSON.parse(weather_response.body)
+  end
+
+  def weather_response
     weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{lat},#{long}") do |req|
       req.params['exclude'] = 'minutely'
     end
-
-    JSON.parse(weather_response.body)
   end
 
   def lat
