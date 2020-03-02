@@ -35,14 +35,15 @@ RSpec.describe "Weather API" do
     expect(forecast.key?('humidity')).to eq(true)
     expect(forecast.key?('visibility')).to eq(true)
     expect(forecast.key?('uv_index')).to eq(true)
+
+    expect(forecast.key?('eight_hour_temperatures')).to eq(true)
+    expect(forecast['eight_hour_temperatures'].count).to eq(8)
+    expect(forecast['eight_hour_temperatures'].first.class).to eq(Float)
   end
 
-  it "returns hourly weather forecast for given city", :vcr do
+  xit "returns hourly weather forecast for given city", :vcr do
     get '/api/v1/forecast?location=denver,co'
 
     forecast = JSON.parse(response.body)['data']['attributes']
-
-    require "pry"; binding.pry
-
   end
 end
