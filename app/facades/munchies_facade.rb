@@ -13,35 +13,12 @@ def munchies_return
   arrival_time
   arrival_time_unix
 
-
-
-  # start_point = @params[:start]
   end_point = @params[:end]
-#
-  # duration_response = Faraday.get('https://maps.googleapis.com/maps/api/directions/json') do |req|
-  #   req.params['key'] = ENV['GOOGLE_DIRECTIONS_API_KEY']
-  #   req.params['origin'] = start_point
-  #   req.params['destination'] = end_point
-  #
-  # end
-
-  # parsed_response = JSON.parse(duration_response.body)
-
-  # travel_time_text = parsed_response['routes'].first['legs'].first['duration']['text']
-  # travel_time_seconds = parsed_response['routes'].first['legs'].first['duration']['value']
-
-  # arrival_time = Time.now + travel_time_seconds.seconds
-  # arrival_time_unix = arrival_time.to_i
-
-
-
-
-
-
 
 
 
   destination_lat_long = GeocodingService.new(end_point).get_lat_long
+
   destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
 
   destination_long = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lng']
@@ -85,25 +62,19 @@ def munchies_return
 end
 
 def travel_time_text
-  parsed_response['routes'].first['legs'].first['duration']['text']
+  google_maps_parsed_response['routes'].first['legs'].first['duration']['text']
 end
 
 def travel_time_seconds
-  parsed_response['routes'].first['legs'].first['duration']['value']
+  google_maps_parsed_response['routes'].first['legs'].first['duration']['value']
 
 end
 
-def parsed_response
+def google_maps_parsed_response
   start_point = @params[:start]
   end_point = @params[:end]
 
   google_maps_response = GoogleMapsService.new(start_point, end_point).get_travel_time
-
-  # duration_response = Faraday.get('https://maps.googleapis.com/maps/api/directions/json') do |req|
-  #   req.params['key'] = ENV['GOOGLE_DIRECTIONS_API_KEY']
-  #   req.params['origin'] = start_point
-  #   req.params['destination'] = end_point
-  # end
 
   JSON.parse(google_maps_response.body)
 end
@@ -115,6 +86,16 @@ end
 def arrival_time_unix
   arrival_time.to_i
 end
+
+# def g
+
+
+
+# destination_lat_long = GeocodingService.new(end_point).get_lat_long
+#
+# destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
+#
+# destination_long = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lng']
 
 
 end
