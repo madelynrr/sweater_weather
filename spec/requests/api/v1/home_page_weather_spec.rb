@@ -21,9 +21,7 @@ RSpec.describe "Weather API" do
     expect(response).to be_successful
     expect(forecast.key?('id')).to be(true)
     expect(forecast.key?('daily_forecast')).to be(true)
-
-
-
+    
     expect(forecast['daily_forecast'].key?('weather_icon')).to be(true)
     expect(forecast['daily_forecast'].key?('current_summary')).to be(true)
     expect(forecast['daily_forecast'].key?('current_temperature')).to eq(true)
