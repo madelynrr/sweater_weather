@@ -1,6 +1,6 @@
 class DailyForecast
 
-  attr_reader :id, :weather_icon, :current_summary, :current_temperature, :city_state, :country, :time, :today_forecast, :tonight_forecast, :feels_like, :humidity, :visibility, :uv_index, :eight_hour_temperatures
+  attr_reader :id, :weather_icon, :current_summary, :current_temperature, :city_state, :country, :time, :today_forecast, :tonight_forecast, :feels_like, :humidity, :visibility, :uv_index, :eight_hour_temperatures, :five_day_forecast
   # :high_temperature, :low_temperature, :date
 
   def initialize(attributes, location, country)
@@ -22,6 +22,8 @@ class DailyForecast
     @visibility = attributes['currently']['visibility']
     @uv_index = attributes['currently']['uvIndex']
     @eight_hour_temperatures = attributes['hourly']['data'][0..7]
+
+    @five_day_forecast = attributes['daily']['data'][0..4]
   end
 
   # def temperatures_array
