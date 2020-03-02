@@ -21,9 +21,7 @@ class Api::V1::ForecastController < ApplicationController
 
 
 
-
-
-    render json: ForecastSerializer.new(ForecastFacade.new(location).forecast_results)
+    render json: DailyForecastSerializer.new(ForecastFacade.new(location).forecast_results)
   end
 
 end
