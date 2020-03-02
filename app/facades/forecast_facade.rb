@@ -7,11 +7,11 @@ class ForecastFacade
     @location = location
   end
 
-  def forecast_results
-    daily_forecast
-    # hourly_forecast
-    # daily_forecast
-  end
+  # def forecast_results
+  #   daily_forecast
+  #   # hourly_forecast
+  #   # daily_forecast
+  # end
 
   def daily_forecast
     DailyForecast.new(forecast_information, location, country)
