@@ -20,6 +20,10 @@ class ForecastFacade
       req.params['exclude'] = 'minutely'
     end
 
+    forecast = Forecast.new(weather_response)
+
+    require "pry"; binding.pry
+
     # render json: weather_response.body
 
   end
