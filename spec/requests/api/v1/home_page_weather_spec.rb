@@ -15,13 +15,15 @@ RSpec.describe "Weather API" do
   it "returns weather forecast for given location", :vcr do
     get '/api/v1/forecast?location=denver,co'
 
-    forecast = JSON.parse(response.body)
+    forecast = JSON.parse(response.body)['data']['attributes']
 
     expect(response).to be_successful
-
-    expect(forecast.key?('currently')).to be(true)
-    expect(forecast.key?('hourly')).to be(true)
-    expect(forecast.key?('daily')).to be(true)
-    expect(forecast.key?('minutely')).to eq(false)
+    expect(forecast.key?('id')).to be(true)
+    expect(forecast.key?('weather_icon')).to be(true)
+    expect(forecast.key?('current_summary')).to be(true)
+    expect(forecast.key?('current_temperature')).to eq(true)
+    expect(forecast.key?('city_state')).to eq(true)
+    expect(forecast.key?('country')).to eq(true)
+    expect(forecast.key?('time')).to eq(true)
   end
 end
