@@ -43,9 +43,10 @@ class ForecastFacade
   end
 
   def weather_response
-    weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{lat},#{long}") do |req|
-      req.params['exclude'] = 'minutely'
-    end
+    DarkSkyService.new(lat, long).get_forecast
+    # weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{lat},#{long}") do |req|
+    #   req.params['exclude'] = 'minutely'
+    # end
   end
 
   def lat
