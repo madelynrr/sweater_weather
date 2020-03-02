@@ -13,28 +13,19 @@ def munchies_return
   arrival_time
   arrival_time_unix
 
-
-
-
-  # destination_lat_long = GeocodingService.new(end_point).get_lat_long
+  # yelp_response = Faraday.get('https://api.yelp.com/v3/businesses/search?&open_at') do |req|
+  #   req.headers['Authorization'] = "Bearer #{ENV['YELP_API_KEY']}"
+  #   req.params['term'] = 'restaurants'
+  #   req.params['latitude'] = destination_lat
+  #   req.params['longitude'] = destination_long
+  #   req.params['categories'] = @params[:food]
+  #   req.params['open_at'] = arrival_time_unix
+  # end
   #
-  # destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
+  # restaurant = JSON.parse(yelp_response.body)['businesses'].first
   #
-  # destination_long = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lng']
-
-  yelp_response = Faraday.get('https://api.yelp.com/v3/businesses/search?&open_at') do |req|
-    req.headers['Authorization'] = "Bearer #{ENV['YELP_API_KEY']}"
-    req.params['term'] = 'restaurants'
-    req.params['latitude'] = destination_lat
-    req.params['longitude'] = destination_long
-    req.params['categories'] = @params[:food]
-    req.params['open_at'] = arrival_time_unix
-  end
-
-  restaurant = JSON.parse(yelp_response.body)['businesses'].first
-
-  restaurant_name = restaurant['name']
-  restaurant_address = restaurant['location']['display_address'].first + ' ' + restaurant['location']['display_address'].second
+  # restaurant_name = restaurant['name']
+  # restaurant_address = restaurant['location']['display_address'].first + ' ' + restaurant['location']['display_address'].second
 
 
   weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{destination_lat},#{destination_long},#{arrival_time_unix}") do |req|
@@ -60,52 +51,68 @@ def munchies_return
 
 end
 
-def travel_time_text
-  google_maps_parsed_response['routes'].first['legs'].first['duration']['text']
-end
+  def travel_time_text
+    google_maps_parsed_response['routes'].first['legs'].first['duration']['text']
+  end
 
-def travel_time_seconds
-  google_maps_parsed_response['routes'].first['legs'].first['duration']['value']
+  def travel_time_seconds
+    google_maps_parsed_response['routes'].first['legs'].first['duration']['value']
 
-end
+  end
 
-def google_maps_parsed_response
-  start_point = @params[:start]
-  end_point = @params[:end]
+  def google_maps_parsed_response
+    start_point = @params[:start]
+    end_point = @params[:end]
 
-  google_maps_response = GoogleMapsService.new(start_point, end_point).get_travel_time
+    google_maps_response = GoogleMapsService.new(start_point, end_point).get_travel_time
 
-  JSON.parse(google_maps_response.body)
-end
+    JSON.parse(google_maps_response.body)
+  end
 
-def arrival_time
-  Time.now + travel_time_seconds.seconds
-end
+  def arrival_time
+    Time.now + travel_time_seconds.seconds
+  end
 
-def arrival_time_unix
-  arrival_time.to_i
-end
+  def arrival_time_unix
+    arrival_time.to_i
+  end
 
-def google_geocoding_parsed_response
-  GeocodingService.new(@params[:end]).get_lat_long
-  # JSON.parse(response.body)
-end
+  def google_geocoding_parsed_response
+    GeocodingService.new(@params[:end]).get_lat_long
+    # JSON.parse(response.body)
+  end
 
-def destination_lat
-  JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lat']
-end
+  def destination_lat
+    JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lat']
+  end
 
-def destination_long
-  JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lng']
-end
+  def destination_long
+    JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lng']
+  end
 
 
+  def yelp_response
+    Faraday.get('https://api.yelp.com/v3/businesses/search?&open_at') do |req|
+      req.headers['Authorization'] = "Bearer #{ENV['YELP_API_KEY']}"
+      req.params['term'] = 'restaurants'
+      req.params['latitude'] = destination_lat
+      req.params['longitude'] = destination_long
+      req.params['categories'] = @params[:food]
+      req.params['open_at'] = arrival_time_unix
+    end
+  end
 
-# destination_lat_long = GeocodingService.new(end_point).get_lat_long
+  def restaurant
+    JSON.parse(yelp_response.body)['businesses'].first
+  end
 
-# destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
+  def restaurant_name
+    restaurant['name']
+  end
 
-# destination_long = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lng']
+  def restaurant_address
+    restaurant['location']['display_address'].first + ' ' + restaurant['location']['display_address'].second
+  end
 
 
 end
