@@ -16,8 +16,8 @@ class MunchiesFacade
       "travel_time": travel_time_text,
       "forecast": forecast_summary},
       "restaurant": {
-        "name": restaurant_name,
-        "address": restaurant_address
+        "name": restaurant.name,
+        "address": restaurant.address
       }
   }
   end
@@ -28,7 +28,6 @@ class MunchiesFacade
 
   def travel_time_seconds
     google_maps_parsed_response['routes'].first['legs'].first['duration']['value']
-
   end
 
   def google_maps_parsed_response
@@ -68,16 +67,16 @@ class MunchiesFacade
   end
 
   def restaurant
-    yelp_parsed_response['businesses'].first
+    Restaurant.new(yelp_parsed_response['businesses'].first)
   end
 
-  def restaurant_name
-    restaurant['name']
-  end
-
-  def restaurant_address
-    restaurant['location']['display_address'].first + ' ' + restaurant['location']['display_address'].second
-  end
+  # def restaurant_name
+  #   restaurant['name']
+  # end
+  #
+  # def restaurant_address
+  #   restaurant['location']['display_address'].first + ' ' + restaurant['location']['display_address'].second
+  # end
 
   def weather_response
     response = DarkSkyService.new(destination_lat, destination_long, arrival_time_unix).get_future_forecast
