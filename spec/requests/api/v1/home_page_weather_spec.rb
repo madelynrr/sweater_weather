@@ -10,6 +10,14 @@ RSpec.describe "Weather API" do
       lat_and_long = JSON.parse(response.body)
       expect(lat_and_long['lat']).to eq(39.7392358)
       expect(lat_and_long['lng']).to eq(-104.990251)
+  end
 
-    end
+  it "returns weather forecast for given location" do
+    get '/api/v1/forecast?location=denver,co'
+
+    expect(response).to be_successful
+    
+
+
+  end
 end
