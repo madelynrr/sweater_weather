@@ -12,10 +12,11 @@ RSpec.describe "Weather API" do
       expect(lat_and_long['lng']).to eq(-104.990251)
   end
 
-  it "returns weather forecast for given location", :vcr do
+  it "returns current weather forecast for given location", :vcr do
     get '/api/v1/forecast?location=denver,co'
 
     forecast = JSON.parse(response.body)['data']['attributes']
+
 
     expect(response).to be_successful
     expect(forecast.key?('id')).to be(true)
@@ -34,5 +35,14 @@ RSpec.describe "Weather API" do
     expect(forecast.key?('humidity')).to eq(true)
     expect(forecast.key?('visibility')).to eq(true)
     expect(forecast.key?('uv_index')).to eq(true)
+  end
+
+  it "returns hourly weather forecast for given city", :vcr do
+    get '/api/v1/forecast?location=denver,co'
+
+    forecast = JSON.parse(response.body)['data']['attributes']
+
+    require "pry"; binding.pry
+
   end
 end
