@@ -8,8 +8,20 @@ class Api::V1::ForecastController < ApplicationController
       req.params['address'] = location
     end
 
-    lat_and_long = JSON.parse(response.body)['results'].first['geometry']['location']
-    render json: lat_and_long
+    lat = JSON.parse(response.body)['results'].first['geometry']['location']['lat']
+    long = JSON.parse(response.body)['results'].first['geometry']['location']['lng']
+
+
+    weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{lat},#{long}") do |req|
+      req.params['exclude'] = 'minutely'
+    end
+
+    render json: weather_response.body
+
+
+
+
+
   end
 
 end
