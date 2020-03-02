@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Weather API" do
-  it "can retrieve lat and long with given city and state", :vcr do
+  xit "can retrieve lat and long with given city and state", :vcr do
     # VCR.use_cassette('denver_lat_long') do
 
       get '/api/v1/forecast?location=denver,co'
@@ -23,8 +23,8 @@ RSpec.describe "Weather API" do
     expect(forecast.key?('weather_icon')).to be(true)
     expect(forecast.key?('current_summary')).to be(true)
     expect(forecast.key?('current_temperature')).to eq(true)
-    # expect(forecast.key?('high_temperature')).to eq(true)
-    # expect(forecast.key?('low_temperature')).to eq(true)
+    expect(forecast.key?('high_temperature')).to eq(true)
+    expect(forecast.key?('low_temperature')).to eq(true)
     expect(forecast.key?('city_state')).to eq(true)
     expect(forecast.key?('country')).to eq(true)
     expect(forecast.key?('time')).to eq(true)
