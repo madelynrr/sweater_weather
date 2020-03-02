@@ -1,10 +1,11 @@
 class DailyForecast
 
-  attr_reader :id, :weather_icon, :current_summary, :current_temperature, :city_state, :country, :time, :today_forecast, :tonight_forecast, :feels_like, :humidity, :visibility, :uv_index
+  attr_reader :id, :weather_icon, :current_summary, :current_temperature, :city_state, :country, :time, :today_forecast, :tonight_forecast, :feels_like, :humidity, :visibility, :uv_index, :eight_hour_temperatures
   # :high_temperature, :low_temperature, :date
 
   def initialize(attributes, location, country)
     @id = nil
+    @attributes = attributes
     @weather_icon = attributes['currently']['icon']
     @current_summary = attributes['currently']['summary']
     @current_temperature = attributes['currently']['temperature']
@@ -20,6 +21,14 @@ class DailyForecast
     @humidity = attributes['currently']['humidity']
     @visibility = attributes['currently']['visibility']
     @uv_index = attributes['currently']['uvIndex']
+    @eight_hour_temperatures = temperatures_array
+  end
+
+  def temperatures_array
+    @attributes['hourly']['data'][0..7].map do |information|
+      information['temperature']
+    end
+
   end
 
 end
