@@ -1,8 +1,9 @@
 class ForecastFacade
 
-  attr_reader :location
+  attr_reader :id, :location
 
   def initialize(location)
+    @id = nil
     @location = location
   end
 
