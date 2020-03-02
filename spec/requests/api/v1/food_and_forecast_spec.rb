@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "Sweater Weather API" do
   it "returns open restaurant and future forecast for endpoint of trip", :vcr do
-    WebMock.allow_net_connect!
-    VCR.eject_cassette
-    VCR.turn_off!
+    # WebMock.allow_net_connect!
+    # VCR.eject_cassette
+    # VCR.turn_off!
 
     get '/api/v1/munchies?start=denver,co&end=pueblo,co&food=chinese'
 
