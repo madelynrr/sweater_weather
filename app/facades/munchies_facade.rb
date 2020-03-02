@@ -5,27 +5,44 @@ class MunchiesFacade
   def initialize(params)
     @id = nil
     @params = params
-
   end
 
 def munchies_return
-  start_point = @params[:start]
+  travel_time_text
+  travel_time_seconds
+
+
+
+
+
+
+
+
+  # start_point = @params[:start]
   end_point = @params[:end]
+#
+  # duration_response = Faraday.get('https://maps.googleapis.com/maps/api/directions/json') do |req|
+  #   req.params['key'] = ENV['GOOGLE_DIRECTIONS_API_KEY']
+  #   req.params['origin'] = start_point
+  #   req.params['destination'] = end_point
+  #
+  # end
 
-  duration_response = Faraday.get('https://maps.googleapis.com/maps/api/directions/json') do |req|
-    req.params['key'] = ENV['GOOGLE_DIRECTIONS_API_KEY']
-    req.params['origin'] = start_point
-    req.params['destination'] = end_point
+  # parsed_response = JSON.parse(duration_response.body)
 
-  end
-
-  parsed_response = JSON.parse(duration_response.body)
-
-  travel_time_text = parsed_response['routes'].first['legs'].first['duration']['text']
+  # travel_time_text = parsed_response['routes'].first['legs'].first['duration']['text']
   travel_time_seconds = parsed_response['routes'].first['legs'].first['duration']['value']
 
   arrival_time = Time.now + travel_time_seconds.seconds
   arrival_time_unix = arrival_time.to_i
+
+
+
+
+
+
+
+
 
   destination_lat_long = GeocodingService.new(end_point).get_lat_long
   destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
@@ -67,6 +84,54 @@ def munchies_return
         }
       }
 
+
+end
+
+def travel_time_text
+  # start_point = @params[:start]
+  # end_point = @params[:end]
+  #
+  # duration_response = Faraday.get('https://maps.googleapis.com/maps/api/directions/json') do |req|
+  #   req.params['key'] = ENV['GOOGLE_DIRECTIONS_API_KEY']
+  #   req.params['origin'] = start_point
+  #   req.params['destination'] = end_point
+  #
+  # end
+  #
+  # parsed_response = JSON.parse(duration_response.body)
+
+  parsed_response['routes'].first['legs'].first['duration']['text']
+end
+
+def travel_time_seconds
+  # start_point = @params[:start]
+  # end_point = @params[:end]
+  #
+  # duration_response = Faraday.get('https://maps.googleapis.com/maps/api/directions/json') do |req|
+  #   req.params['key'] = ENV['GOOGLE_DIRECTIONS_API_KEY']
+  #   req.params['origin'] = start_point
+  #   req.params['destination'] = end_point
+  #
+  # end
+  #
+  # parsed_response = JSON.parse(duration_response.body)
+
+  parsed_response['routes'].first['legs'].first['duration']['value']
+
+end
+
+def parsed_response
+  start_point = @params[:start]
+  end_point = @params[:end]
+
+  duration_response = Faraday.get('https://maps.googleapis.com/maps/api/directions/json') do |req|
+    req.params['key'] = ENV['GOOGLE_DIRECTIONS_API_KEY']
+    req.params['origin'] = start_point
+    req.params['destination'] = end_point
+
+  end
+
+  JSON.parse(duration_response.body)
 
 end
 
