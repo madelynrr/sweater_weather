@@ -13,15 +13,14 @@ def munchies_return
   arrival_time
   arrival_time_unix
 
-  end_point = @params[:end]
 
 
 
-  destination_lat_long = GeocodingService.new(end_point).get_lat_long
-
-  destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
-
-  destination_long = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lng']
+  # destination_lat_long = GeocodingService.new(end_point).get_lat_long
+  #
+  # destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
+  #
+  # destination_long = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lng']
 
   yelp_response = Faraday.get('https://api.yelp.com/v3/businesses/search?&open_at') do |req|
     req.headers['Authorization'] = "Bearer #{ENV['YELP_API_KEY']}"
@@ -49,7 +48,7 @@ def munchies_return
       "id": nil,
       "type": @params[:food],
       "attributes": {
-        "end_location": end_point,
+        "end_location": @params[:end],
         "travel_time": travel_time_text,
         "forecast": forecast_summary},
         "restaurant": {
@@ -87,14 +86,25 @@ def arrival_time_unix
   arrival_time.to_i
 end
 
-# def g
+def google_geocoding_parsed_response
+  GeocodingService.new(@params[:end]).get_lat_long
+  # JSON.parse(response.body)
+end
+
+def destination_lat
+  JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lat']
+end
+
+def destination_long
+  JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lng']
+end
 
 
 
 # destination_lat_long = GeocodingService.new(end_point).get_lat_long
-#
+
 # destination_lat = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lat']
-#
+
 # destination_long = JSON.parse(destination_lat_long.body)['results'].first['geometry']['location']['lng']
 
 
