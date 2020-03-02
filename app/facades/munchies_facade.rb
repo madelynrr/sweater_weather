@@ -91,19 +91,14 @@ end
   end
 
 
-  def yelp_response
-    Faraday.get('https://api.yelp.com/v3/businesses/search?&open_at') do |req|
-      req.headers['Authorization'] = "Bearer #{ENV['YELP_API_KEY']}"
-      req.params['term'] = 'restaurants'
-      req.params['latitude'] = destination_lat
-      req.params['longitude'] = destination_long
-      req.params['categories'] = @params[:food]
-      req.params['open_at'] = arrival_time_unix
-    end
+  def yelp_parsed_response
+    category = @params[:food]
+    response = YelpService.new(destination_lat, destination_long, category, arrival_time_unix).return_restaurant
+    JSON.parse(response.body)
   end
 
   def restaurant
-    JSON.parse(yelp_response.body)['businesses'].first
+    yelp_parsed_response['businesses'].first
   end
 
   def restaurant_name
