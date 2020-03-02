@@ -38,7 +38,16 @@ RSpec.describe "Weather API" do
 
     expect(forecast.key?('eight_hour_temperatures')).to eq(true)
     expect(forecast['eight_hour_temperatures'].count).to eq(8)
-    expect(forecast['eight_hour_temperatures'].first.class).to eq(Float)
+    expect(forecast['eight_hour_temperatures'].first.key?('time')).to eq(true)
+    expect(forecast['eight_hour_temperatures'].first.key?('temperature')).to eq(true)
+
+    expect(forecast.key?('five_day_forecast')).to eq(true)
+    expect(forecast['five_day_forecast'].count).to eq(5)
+    expect(forecast['five_day_forecast'].first.key?('icon')).to eq(true)
+    expect(forecast['five_day_forecast'].first.key?('summary')).to eq(true)
+    expect(forecast['five_day_forecast'].first.key?('precipProbability')).to eq(true)
+    expect(forecast['five_day_forecast'].first.key?('temperatureHigh')).to eq(true)
+    expect(forecast['five_day_forecast'].first.key?('temperatureLow')).to eq(true)
   end
 
   xit "returns hourly weather forecast for given city", :vcr do
