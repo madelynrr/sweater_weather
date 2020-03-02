@@ -7,29 +7,20 @@ class MunchiesFacade
     @params = params
   end
 
-def munchies_return
-  # weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{destination_lat},#{destination_long},#{arrival_time_unix}") do |req|
-  #   req.params['exclude'] = 'minutely'
-  # end
-  #
-  # forecast_summary = JSON.parse(weather_response.body)['hourly']['summary']
-
-
-  response_hash = {
-      "id": nil,
-      "type": @params[:food],
-      "attributes": {
-        "end_location": @params[:end],
-        "travel_time": travel_time_text,
-        "forecast": forecast_summary},
-        "restaurant": {
-          "name": restaurant_name,
-          "address": restaurant_address
-        }
+  def munchies_return
+  {
+    "id": nil,
+    "type": @params[:food],
+    "attributes": {
+      "end_location": @params[:end],
+      "travel_time": travel_time_text,
+      "forecast": forecast_summary},
+      "restaurant": {
+        "name": restaurant_name,
+        "address": restaurant_address
       }
-
-
-end
+  }
+  end
 
   def travel_time_text
     google_maps_parsed_response['routes'].first['legs'].first['duration']['text']
@@ -57,17 +48,16 @@ end
     arrival_time.to_i
   end
 
-  def google_geocoding_parsed_response
+  def google_geocoding_response
     GeocodingService.new(@params[:end]).get_lat_long
-    # JSON.parse(response.body)
   end
 
   def destination_lat
-    JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lat']
+    JSON.parse(google_geocoding_response.body)['results'].first['geometry']['location']['lat']
   end
 
   def destination_long
-    JSON.parse(google_geocoding_parsed_response.body)['results'].first['geometry']['location']['lng']
+    JSON.parse(google_geocoding_response.body)['results'].first['geometry']['location']['lng']
   end
 
 
@@ -97,7 +87,4 @@ end
   def forecast_summary
     weather_response['hourly']['summary']
   end
-
-
-
 end
