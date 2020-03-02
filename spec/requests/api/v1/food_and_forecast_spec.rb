@@ -2,30 +2,30 @@ require 'rails_helper'
 
 RSpec.describe "Sweater Weather API" do
   it "returns open restaurant and future forecast for endpoint of trip", :vcr do
+    WebMock.allow_net_connect!
+    VCR.eject_cassette
+    VCR.turn_off!
+
     get '/api/v1/munchies?start=denver,co&end=pueblo,co&food=chinese'
 
     expect(response).to be_successful
     information = JSON.parse(response.body)
 
+
     expect(information.key?('data')).to be(true)
-    expect(information['data'].key?('id')).to be(true)
+    expect(information['data']['attributes'].key?('id')).to be(true)
     expect(information['data'].key?('type')).to be(true)
     expect(information['data'].key?('attributes')).to be(true)
-    expect(information['data']['attributes'].key?('end_location')).to be(true)
-    expect(information['data']['attributes'].key?('travel_time')).to be(true)
-    expect(information['data']['attributes'].key?('forecast')).to be(true)
-    expect(information['data'].key?('restaurant')).to be(true)
-    expect(information['data']['restaurant'].key?('name')).to be(true)
-    expect(information['data']['restaurant'].key?('address')).to be(true)
+    expect(information['data']['attributes']['munchies_return']['attributes'].key?('end_location')).to be(true)
+    expect(information['data']['attributes']['munchies_return']['attributes'].key?('travel_time')).to be(true)
+    expect(information['data']['attributes']['munchies_return']['attributes'].key?('forecast')).to be(true)
 
-    # need to find time to travel between start and end (need to find lat and long for that?) Google Directions API
-    # Need to find restaurant with specified cuisine that will be open upon arrival (Yelp API)
-    # Need to find current weather forecast at time of arrival (Dark Sky API)
-    # API response will have
-    # end city
-    # estimated travel time
-    # name and address of restaurant with specified cuisine
-    # forecast at time of arrival
+    expect(information['data']['attributes']['munchies_return'].key?('type')).to be(true)
+    # expect(information['data']['restaurant'].key?('name')).to be(true)
+    # expect(information['data']['restaurant'].key?('address')).to be(true)
+
+
+
     # Response Format:
     # {
     #   "data": {
