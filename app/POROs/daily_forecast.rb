@@ -21,14 +21,14 @@ class DailyForecast
     @humidity = attributes['currently']['humidity']
     @visibility = attributes['currently']['visibility']
     @uv_index = attributes['currently']['uvIndex']
-    @eight_hour_temperatures = temperatures_array
+    @eight_hour_temperatures = attributes['hourly']['data'][0..7]
   end
 
-  def temperatures_array
-    @attributes['hourly']['data'][0..7].map do |information|
-      information['temperature']
-    end
-
-  end
+  # def temperatures_array
+  #   @attributes['hourly']['data'][0..7].each do |information|
+  #     red['time'] = information['time']
+  #     red['temperature'] = information['temperature']
+  #   end
+  # end
 
 end
