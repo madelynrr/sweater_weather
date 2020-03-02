@@ -1,0 +1,3 @@
+class DarkSkyService
+  
+end
