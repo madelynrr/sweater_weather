@@ -22,8 +22,17 @@ RSpec.describe "Weather API" do
     expect(forecast.key?('weather_icon')).to be(true)
     expect(forecast.key?('current_summary')).to be(true)
     expect(forecast.key?('current_temperature')).to eq(true)
+    # expect(forecast.key?('high_temperature')).to eq(true)
+    # expect(forecast.key?('low_temperature')).to eq(true)
     expect(forecast.key?('city_state')).to eq(true)
     expect(forecast.key?('country')).to eq(true)
     expect(forecast.key?('time')).to eq(true)
+    # expect(forecast.key?('date')).to eq(true)
+    expect(forecast.key?('today_forecast')).to eq(true)
+    expect(forecast.key?('tonight_forecast')).to eq(true)
+    expect(forecast.key?('feels_like')).to eq(true)
+    expect(forecast.key?('humidity')).to eq(true)
+    expect(forecast.key?('visibility')).to eq(true)
+    expect(forecast.key?('uv_index')).to eq(true)
   end
 end
