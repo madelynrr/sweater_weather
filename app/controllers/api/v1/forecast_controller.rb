@@ -3,7 +3,11 @@ class Api::V1::ForecastController < ApplicationController
   def index
     location = params[:location]
 
-    render json: DailyForecastSerializer.new(ForecastFacade.new(location).forecast_results)
+    forecasts = ForecastFacade.new(location)
+    render json: DailyForecastSerializer.new(forecasts)
+
+
+    # render json: DailyForecastSerializer.new(ForecastFacade.new(location).forecast_results)
   end
 
 end
