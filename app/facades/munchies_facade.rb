@@ -8,31 +8,11 @@ class MunchiesFacade
   end
 
 def munchies_return
-  travel_time_text
-  travel_time_seconds
-  arrival_time
-  arrival_time_unix
-
-  # yelp_response = Faraday.get('https://api.yelp.com/v3/businesses/search?&open_at') do |req|
-  #   req.headers['Authorization'] = "Bearer #{ENV['YELP_API_KEY']}"
-  #   req.params['term'] = 'restaurants'
-  #   req.params['latitude'] = destination_lat
-  #   req.params['longitude'] = destination_long
-  #   req.params['categories'] = @params[:food]
-  #   req.params['open_at'] = arrival_time_unix
+  # weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{destination_lat},#{destination_long},#{arrival_time_unix}") do |req|
+  #   req.params['exclude'] = 'minutely'
   # end
   #
-  # restaurant = JSON.parse(yelp_response.body)['businesses'].first
-  #
-  # restaurant_name = restaurant['name']
-  # restaurant_address = restaurant['location']['display_address'].first + ' ' + restaurant['location']['display_address'].second
-
-
-  weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{destination_lat},#{destination_long},#{arrival_time_unix}") do |req|
-    req.params['exclude'] = 'minutely'
-  end
-
-  forecast_summary = JSON.parse(weather_response.body)['hourly']['summary']
+  # forecast_summary = JSON.parse(weather_response.body)['hourly']['summary']
 
 
   response_hash = {
@@ -108,6 +88,16 @@ end
   def restaurant_address
     restaurant['location']['display_address'].first + ' ' + restaurant['location']['display_address'].second
   end
+
+  def weather_response
+    response = DarkSkyService.new(destination_lat, destination_long, arrival_time_unix).get_future_forecast
+    JSON.parse(response.body)
+  end
+
+  def forecast_summary
+    weather_response['hourly']['summary']
+  end
+
 
 
 end
