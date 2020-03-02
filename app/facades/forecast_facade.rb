@@ -8,7 +8,7 @@ class ForecastFacade
 
   def forecast_results
     daily_forecast
-    # hourly_forecast
+    hourly_forecast
     # daily_forecast
   end
 
