@@ -7,6 +7,12 @@ class ForecastFacade
   end
 
   def forecast_results
+    daily_forecast
+    # hourly_forecast
+    # daily_forecast
+  end
+
+  def daily_forecast
     response = Faraday.get('https://maps.googleapis.com/maps/api/geocode/json') do |req|
       req.params['key'] = ENV['GOOGLE_GEOCODING_API_KEY']
       req.params['address'] = location
@@ -14,6 +20,7 @@ class ForecastFacade
 
     lat = JSON.parse(response.body)['results'].first['geometry']['location']['lat']
     long = JSON.parse(response.body)['results'].first['geometry']['location']['lng']
+    country = JSON.parse(response.body)['results'].first['address_components'][3]['long_name']
 
 
     weather_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARK_SKY_API_KEY']}/#{lat},#{long}") do |req|
@@ -22,11 +29,9 @@ class ForecastFacade
 
     response_body = JSON.parse(weather_response.body)
 
-    forecast = Forecast.new(response_body)
+    daily_forecast = DailyForecast.new(response_body, location, country)
 
-    require "pry"; binding.pry
-
-    # render json: weather_response.body
+    # render json: daily_forecast
 
   end
 
