@@ -13,13 +13,13 @@ class ForecastFacade
   #   # daily_forecast
   # end
 
-  def daily_forecast
-    DailyForecast.new(forecast_information, location, country)
+  def current_forecast
+    CurrentForecast.new(forecast_information, location, country)
   end
 
-  def hourly_forecast
-
-  end
+  # def hourly_forecast
+  #
+  # end
 
   def forecast_information
     JSON.parse(weather_response.body)
