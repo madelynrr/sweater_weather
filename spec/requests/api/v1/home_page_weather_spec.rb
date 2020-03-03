@@ -64,9 +64,6 @@ RSpec.describe "Weather API" do
     expect(hourly_forecast.length).to eq(8)
     expect(hourly_forecast[0].key?('time')).to be(true)
     expect(hourly_forecast[0].key?('temperature')).to be(true)
-
-
-
   end
 
 end
