@@ -15,6 +15,10 @@ class ForecastFacade
     HourlyForecast.new(forecast_information)
   end
 
+  def daily_forecast
+    DailyForecast.new(forecast_information)
+  end
+
   def forecast_information
     JSON.parse(weather_response.body)
   end
