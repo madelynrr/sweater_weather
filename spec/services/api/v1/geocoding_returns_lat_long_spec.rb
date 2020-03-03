@@ -12,6 +12,6 @@ RSpec.describe "Geocoding Service" do
     expect(parsed_response['results'].first.key?('geometry')).to be(true)
     expect(parsed_response['results'].first['geometry']['location'].key?('lat')).to be(true)
     expect(parsed_response['results'].first['geometry']['location'].key?('lng')).to be(true)
-    expect(parsed_response['results'].first['address_components'][3].key?('long_name')). to be(true)
+    expect(parsed_response['results'].first['address_components'][3].key?('long_name')).to be(true)
   end
 end
