@@ -17,39 +17,49 @@ RSpec.describe "Weather API" do
 
     forecast = JSON.parse(response.body)['data']['attributes']
 
-
     expect(response).to be_successful
     expect(forecast.key?('id')).to be(true)
-    expect(forecast.key?('daily_forecast')).to be(true)
-    
-    expect(forecast['daily_forecast'].key?('weather_icon')).to be(true)
-    expect(forecast['daily_forecast'].key?('current_summary')).to be(true)
-    expect(forecast['daily_forecast'].key?('current_temperature')).to eq(true)
-    expect(forecast['daily_forecast'].key?('high_temperature')).to eq(true)
-    expect(forecast['daily_forecast'].key?('low_temperature')).to eq(true)
-    expect(forecast['daily_forecast'].key?('city_state')).to eq(true)
-    expect(forecast['daily_forecast'].key?('country')).to eq(true)
-    expect(forecast['daily_forecast'].key?('time')).to eq(true)
-    # expect(forecast['daily_forecast'].key?('date')).to eq(true)
-    expect(forecast['daily_forecast'].key?('today_forecast')).to eq(true)
-    expect(forecast['daily_forecast'].key?('tonight_forecast')).to eq(true)
-    expect(forecast['daily_forecast'].key?('feels_like')).to eq(true)
-    expect(forecast['daily_forecast'].key?('humidity')).to eq(true)
-    expect(forecast['daily_forecast'].key?('visibility')).to eq(true)
-    expect(forecast['daily_forecast'].key?('uv_index')).to eq(true)
+    expect(forecast.key?('current_forecast')).to be(true)
 
-    expect(forecast['daily_forecast'].key?('eight_hour_temperatures')).to eq(true)
-    expect(forecast['daily_forecast']['eight_hour_temperatures'].count).to eq(8)
-    expect(forecast['daily_forecast']['eight_hour_temperatures'].first.key?('time')).to eq(true)
-    expect(forecast['daily_forecast']['eight_hour_temperatures'].first.key?('temperature')).to eq(true)
+    expect(forecast['current_forecast'].key?('weather_icon')).to be(true)
+    expect(forecast['current_forecast'].key?('current_summary')).to be(true)
+    expect(forecast['current_forecast'].key?('current_temperature')).to eq(true)
+    expect(forecast['current_forecast'].key?('high_temperature')).to eq(true)
+    expect(forecast['current_forecast'].key?('low_temperature')).to eq(true)
+    expect(forecast['current_forecast'].key?('city_state')).to eq(true)
+    expect(forecast['current_forecast'].key?('country')).to eq(true)
+    expect(forecast['current_forecast'].key?('time_date')).to eq(true)
+    expect(forecast['current_forecast'].key?('today_forecast')).to eq(true)
+    expect(forecast['current_forecast'].key?('tonight_forecast')).to eq(true)
+    expect(forecast['current_forecast'].key?('feels_like')).to eq(true)
+    expect(forecast['current_forecast'].key?('humidity')).to eq(true)
+    expect(forecast['current_forecast'].key?('visibility')).to eq(true)
+    expect(forecast['current_forecast'].key?('uv_index')).to eq(true)
 
-    expect(forecast['daily_forecast'].key?('five_day_forecast')).to eq(true)
-    expect(forecast['daily_forecast']['five_day_forecast'].count).to eq(5)
-    expect(forecast['daily_forecast']['five_day_forecast'].first.key?('icon')).to eq(true)
-    expect(forecast['daily_forecast']['five_day_forecast'].first.key?('summary')).to eq(true)
-    expect(forecast['daily_forecast']['five_day_forecast'].first.key?('precipProbability')).to eq(true)
-    expect(forecast['daily_forecast']['five_day_forecast'].first.key?('temperatureHigh')).to eq(true)
-    expect(forecast['daily_forecast']['five_day_forecast'].first.key?('temperatureLow')).to eq(true)
+    expect(forecast['current_forecast'].key?('eight_hour_temperatures')).to eq(true)
+    expect(forecast['current_forecast']['eight_hour_temperatures'].count).to eq(8)
+    expect(forecast['current_forecast']['eight_hour_temperatures'].first.key?('time')).to eq(true)
+    expect(forecast['current_forecast']['eight_hour_temperatures'].first.key?('temperature')).to eq(true)
+
+    expect(forecast['current_forecast'].key?('five_day_forecast')).to eq(true)
+    expect(forecast['current_forecast']['five_day_forecast'].count).to eq(5)
+    expect(forecast['current_forecast']['five_day_forecast'].first.key?('icon')).to eq(true)
+    expect(forecast['current_forecast']['five_day_forecast'].first.key?('summary')).to eq(true)
+    expect(forecast['current_forecast']['five_day_forecast'].first.key?('precipProbability')).to eq(true)
+    expect(forecast['current_forecast']['five_day_forecast'].first.key?('temperatureHigh')).to eq(true)
+    expect(forecast['current_forecast']['five_day_forecast'].first.key?('temperatureLow')).to eq(true)
+  end
+
+  it "returns temperature for next eight hours" do
+    get '/api/v1/forecast?location=denver,co'
+
+    forecast = JSON.parse(response.body)['data']['attributes']
+
+    expect(response).to be_successful
+
+    expect(forecast)
+
+
   end
 
   xit "returns hourly weather forecast for given city", :vcr do
