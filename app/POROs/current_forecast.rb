@@ -19,16 +19,9 @@ class CurrentForecast
     @visibility = attributes['currently']['visibility']
     @uv_index = attributes['currently']['uvIndex']
 
-    @eight_hour_temperatures = attributes['hourly']['data'][0..7]
-
-    @five_day_forecast = attributes['daily']['data'][0..4]
+    # @eight_hour_temperatures = attributes['hourly']['data'][0..7]
+    #
+    # @five_day_forecast = attributes['daily']['data'][0..4]
   end
-
-  # def temperatures_array
-  #   @attributes['hourly']['data'][0..7].each do |information|
-  #     red['time'] = information['time']
-  #     red['temperature'] = information['temperature']
-  #   end
-  # end
 
 end
