@@ -1,7 +1,6 @@
 class HourlyForecast
 
   def initialize(attributes)
-    # @attributes = attributes
     @eight_hours = eight_hours(attributes)
   end
 
