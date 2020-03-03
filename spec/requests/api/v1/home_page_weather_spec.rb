@@ -50,21 +50,23 @@ RSpec.describe "Weather API" do
     expect(forecast['current_forecast']['five_day_forecast'].first.key?('temperatureLow')).to eq(true)
   end
 
-  it "returns temperature for next eight hours" do
+  it "returns temperature for next eight hours", :vcr do
     get '/api/v1/forecast?location=denver,co'
 
     forecast = JSON.parse(response.body)['data']['attributes']
 
     expect(response).to be_successful
+    expect(forecast.key?('id')).to be(true)
+    expect(forecast.key?('hourly_forecast')).to be(true)
 
-    expect(forecast)
+    hourly_forecast = forecast["hourly_forecast"]
+    expect(hourly_forecast.class).to be_an Array
+    expect(hourly_forecast.length).to eq(8)
+    expect(hourly_forecast[0].key?('time')).to be(true)
+    expect(hourly_forecast[0].key?('temperature')).to be(true)
+
 
 
   end
 
-  xit "returns hourly weather forecast for given city", :vcr do
-    get '/api/v1/forecast?location=denver,co'
-
-    forecast = JSON.parse(response.body)['data']['attributes']
-  end
 end
