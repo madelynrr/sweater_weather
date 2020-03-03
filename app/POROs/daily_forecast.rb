@@ -4,8 +4,8 @@ class DailyForecast
     @daily_forecast = daily_forecast
   end
 
-  def daily_forecast
-    
+  def five_days
+
   end
 
 end
