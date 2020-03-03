@@ -13,7 +13,6 @@ class ForecastFacade
 
   def hourly_forecast
     HourlyForecast.new(forecast_information)
-
   end
 
   def forecast_information
@@ -39,5 +38,4 @@ class ForecastFacade
   def geocode_response
     GeocodingService.new(location).get_lat_long
   end
-
 end
