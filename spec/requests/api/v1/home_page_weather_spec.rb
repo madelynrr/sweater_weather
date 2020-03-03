@@ -1,17 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Weather API" do
-  xit "can retrieve lat and long with given city and state", :vcr do
-    # VCR.use_cassette('denver_lat_long') do
-
-      get '/api/v1/forecast?location=denver,co'
-
-      expect(response).to be_successful
-      lat_and_long = JSON.parse(response.body)
-      expect(lat_and_long['lat']).to eq(39.7392358)
-      expect(lat_and_long['lng']).to eq(-104.990251)
-  end
-
   it "returns current weather forecast for given location", :vcr do
     get '/api/v1/forecast?location=denver,co'
 
@@ -36,11 +25,6 @@ RSpec.describe "Weather API" do
     expect(forecast['current_forecast'].key?('visibility')).to eq(true)
     expect(forecast['current_forecast'].key?('uv_index')).to eq(true)
 
-    # expect(forecast['current_forecast'].key?('eight_hour_temperatures')).to eq(true)
-    # expect(forecast['current_forecast']['eight_hour_temperatures'].count).to eq(8)
-    # expect(forecast['current_forecast']['eight_hour_temperatures'].first.key?('time')).to eq(true)
-    # expect(forecast['current_forecast']['eight_hour_temperatures'].first.key?('temperature')).to eq(true)
-    #
     # expect(forecast['current_forecast'].key?('five_day_forecast')).to eq(true)
     # expect(forecast['current_forecast']['five_day_forecast'].count).to eq(5)
     # expect(forecast['current_forecast']['five_day_forecast'].first.key?('icon')).to eq(true)
