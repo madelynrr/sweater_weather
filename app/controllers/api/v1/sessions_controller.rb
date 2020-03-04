@@ -5,9 +5,10 @@ class Api::V1::SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       render json: UserSerializer.new(user)
+    else
+      response.status = 401
+      render json: {"error": "Invalid Login"}
     end
-    response.status = 401
-    render json: {"error": "Invalid Login"}
   end
 
 end
