@@ -6,15 +6,6 @@ class Api::V1::BackgroundsController < ApplicationController
       req.params['query'] = 'denver'
     end
 
-    JSON.parse(response.body)['results'].first['urls']['raw']
-
-
-
-
-
-
-
-
+    render json: JSON.parse(response.body)['results'].first['urls']['raw']
   end
-
 end
