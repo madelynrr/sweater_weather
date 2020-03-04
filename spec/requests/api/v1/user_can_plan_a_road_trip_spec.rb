@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Weather API" do
-  it "can return travel time and weather forecast for a road trip given an api key" do
+  it "can return travel time and weather forecast for a road trip given an api key", :vcr do
+    WebMock.allow_net_connect!
+    VCR.eject_cassette
+    VCR.turn_off!
+
     user = User.create(email: "whatever@example.com",
                 "password": "password",
                 "password_confirmation": "password"
@@ -12,7 +16,7 @@ RSpec.describe "Weather API" do
               "destination": "Pueblo,CO",
               "api_key": "#{user.api_key}"
               }
-              
+
     post "/api/v1/road_trip", params: params
 
     parsed_response = JSON.parse(response.body)
