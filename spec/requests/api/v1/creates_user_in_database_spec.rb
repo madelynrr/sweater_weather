@@ -30,5 +30,24 @@ RSpec.describe "Weather API creates a user" do
     expect(response.status).to eq(201)
   end
 
+  it "returns 400 message and description if user not created" do
+    User.create(email: "whatever@example.com",
+                "password": "password",
+                "password_confirmation": "password"
+                )
+    user_params = {
+                    "email": "whatever@example.com",
+                    "password": "password",
+                    "password_confirmation": "password"
+                  }
+    post '/api/v1/users', params: user_params
+
+    parsed_response = JSON.parse(response.body)
+
+    expect(response.status).to eq(400)
+    expect(parsed_response['data']['attributes'].key?('errors')).to be(true)
+    expect(parsed_response['data']['attributes']['errors']).to eq("Email has already been taken")
+  end
+
 
 end
