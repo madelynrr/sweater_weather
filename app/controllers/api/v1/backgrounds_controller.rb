@@ -5,12 +5,9 @@ class Api::V1::BackgroundsController < ApplicationController
       req.params['client_id'] = "#{ENV['UNSPLASH_API_KEY']}"
       req.params['query'] = 'denver'
     end
-require "pry"; binding.pry
-    x = JSON.parse(response.body)
 
+    JSON.parse(response.body)['results'].first['urls']['raw']
 
-
-    render json: BackgroundSerializer.new()
 
 
 
