@@ -7,11 +7,11 @@ RSpec.describe "Weather API creates a user" do
                     "password": "password",
                     "password_confirmation": "password"
                   }
-    post '/api/v1/users', params: {user: user_params}
+    post '/api/v1/users', params: user_params
 
     user = User.last
 
-    expect(user.email).to eq(user_params['email'])
+    expect(user.email).to eq(user_params[:email])
     expect(user.api_key?).to be(true)
 
     expect(response).to be_successful
