@@ -64,7 +64,7 @@ RSpec.describe "Weather API creates a user" do
     expect(parsed_response['data']['attributes']['errors']).to eq("Password confirmation doesn't match Password")
   end
 
-  it "returns error if a field is not filled out" do
+  it "returns error if email field is not filled out" do
     user_params = {
                     "email": nil,
                     "password": "password",
@@ -77,6 +77,21 @@ RSpec.describe "Weather API creates a user" do
     expect(response.status).to eq(400)
     expect(parsed_response['data']['attributes'].key?('errors')).to be(true)
     expect(parsed_response['data']['attributes']['errors']).to eq("Email can't be blank")
+  end
+
+  it "returns error if password field not filled in" do
+    user_params = {
+                    "email": "whatever@example.com",
+                    "password": nil,
+                    "password_confirmation": "password"
+                  }
+    post '/api/v1/users', params: user_params
+
+    parsed_response = JSON.parse(response.body)
+
+    expect(response.status).to eq(400)
+    expect(parsed_response['data']['attributes'].key?('errors')).to be(true)
+    expect(parsed_response['data']['attributes']['errors']).to eq("Password can't be blank and Password can't be blank")
   end
 
 
