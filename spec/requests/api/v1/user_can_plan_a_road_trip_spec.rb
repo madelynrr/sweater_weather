@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe "Weather API" do
-  it "can return travel time and weather forecast for a road trip" do
+  it "can return travel time and weather forecast for a road trip given an api key" do
+    user = User.create(email: "whatever@example.com",
+                "password": "password",
+                "password_confirmation": "password"
+                )
+
     params = {
               "origin": "Denver,CO",
               "destination": "Pueblo,CO",
-              "api_key": "jgn983hy48thw9begh98h4539h4"
+              "api_key": "#{user.api_key}"
               }
     post "/api/v1/road_trip", params: params
 
