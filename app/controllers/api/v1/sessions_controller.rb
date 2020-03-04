@@ -6,7 +6,8 @@ class Api::V1::SessionsController < ApplicationController
       session[:user_id] = user.id
       render json: UserSerializer.new(user)
     end
-    # response.status = 
+    response.status = 401
+    render json: {"error": "Invalid Login"}
   end
 
 end
