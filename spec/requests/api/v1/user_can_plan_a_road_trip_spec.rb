@@ -33,4 +33,22 @@ RSpec.describe "Weather API" do
     expect(parsed_response['data']['attributes']['travel_forecast'].key?('summary')).to be(true)
     expect(parsed_response['data']['attributes']['travel_forecast'].key?('temperature')).to be(true)
   end
+
+  it "returns error message if user's api key is not present", :vcr do
+    VCR.eject_cassette
+    VCR.turn_off! :ignore_cassettes => true
+    WebMock.allow_net_connect!
+
+    params = {
+              "origin": "Denver,CO",
+              "destination": "Pueblo,CO",
+              }
+
+    post "/api/v1/road_trip", params: params
+
+    parsed_response = JSON.parse(response.body)
+
+    expect(response.status).to eq(401)
+    expect(parsed_response['error']).to eq("API Key Required")
+  end
 end
