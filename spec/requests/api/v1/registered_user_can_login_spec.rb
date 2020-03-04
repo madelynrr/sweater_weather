@@ -34,6 +34,8 @@ RSpec.describe "Weather API" do
     post "/api/v1/sessions", params: params
 
     parsed_response = JSON.parse(response.body)
-    require "pry"; binding.pry
+    expect(response.status).to eq(401)
+    expect(parsed_response.key?('error')).to be(true)
+    expect(parsed_response['error']).to eq("Invalid Login")
   end
 end
