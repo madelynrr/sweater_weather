@@ -12,6 +12,7 @@ RSpec.describe "Weather API" do
               "destination": "Pueblo,CO",
               "api_key": "#{user.api_key}"
               }
+              
     post "/api/v1/road_trip", params: params
 
     parsed_response = JSON.parse(response.body)
