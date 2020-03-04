@@ -7,18 +7,16 @@ class ForecastFacade
     @location = location
   end
 
-  # def forecast_results
-  #   daily_forecast
-  #   # hourly_forecast
-  #   # daily_forecast
-  # end
-
-  def daily_forecast
-    DailyForecast.new(forecast_information, location, country)
+  def current_forecast
+    CurrentForecast.new(forecast_information, location, country)
   end
 
   def hourly_forecast
+    HourlyForecast.new(forecast_information)
+  end
 
+  def daily_forecast
+    DailyForecast.new(forecast_information)
   end
 
   def forecast_information
@@ -44,5 +42,4 @@ class ForecastFacade
   def geocode_response
     GeocodingService.new(location).get_lat_long
   end
-
 end

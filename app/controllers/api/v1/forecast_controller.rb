@@ -5,11 +5,7 @@ class Api::V1::ForecastController < ApplicationController
 
     forecasts = ForecastFacade.new(location)
     render json: DailyForecastSerializer.new(forecasts)
-
-
-    # render json: DailyForecastSerializer.new(ForecastFacade.new(location).forecast_results)
   end
-
 end
 
 
